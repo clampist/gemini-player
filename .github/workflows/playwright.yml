@@ -54,3 +54,24 @@ jobs:
           path: artifacts/
           retention-days: 7
 
+      - name: Publish report to GitHub Pages
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: playwright-report
+          publish_branch: gh-pages
+          keep_files: false
+          enable_jekyll: false
+          full_commit_message: "docs: update Playwright report for ${{ github.sha }}"
+
+      - name: Report URL
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const base = `https://${process.env.GITHUB_REPOSITORY_OWNER}.github.io/${context.repo.repo}`;
+            const url = `${base}/index.html`;
+            core.summary
+              .addHeading('Playwright Report')
+              .addLink('View report', url)
+              .write();
