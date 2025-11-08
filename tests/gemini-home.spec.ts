@@ -52,6 +52,13 @@ test.describe('Gemini homepage', () => {
         .first();
       await expect(responseRegion).toBeVisible({ timeout: 20_000 });
       await expect(responseRegion).toContainText(/Playwright/i);
+
+      const screenshotPath = `artifacts/gemini-home-${Date.now()}.png`;
+      await page.screenshot({ path: screenshotPath, fullPage: true });
+      test.info().attach('result-screenshot', {
+        path: screenshotPath,
+        contentType: 'image/png'
+      });
     });
   });
 });
