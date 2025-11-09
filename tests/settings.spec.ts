@@ -7,7 +7,7 @@ test.describe('Gemini settings switching', () => {
   test('Renders Japanese locale and switches back to English', async ({ page }) => {
     await test.step('Open Japanese locale', async () => {
       await page.goto('/?hl=ja');
-      await page.waitForLoadState('networkidle');
+      
       await expect(page.locator('html')).toHaveAttribute('lang', /ja/i);
       await logMessage(test.info(), 'Opened homepage with hl=ja');
 
@@ -16,7 +16,7 @@ test.describe('Gemini settings switching', () => {
 
     await test.step('Switch back to English locale', async () => {
       await page.goto('/');
-      await page.waitForLoadState('networkidle');
+      
       await expect(page.locator('html')).toHaveAttribute('lang', /en/i);
       await logMessage(test.info(), 'Navigated back to default locale');
 
