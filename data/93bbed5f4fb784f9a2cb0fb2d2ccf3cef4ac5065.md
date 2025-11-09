@@ -1,0 +1,100 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - link "Sign in" [ref=e6] [cursor=pointer]:
+    - /url: https://accounts.google.com/ServiceLogin?passive=1209600&continue=https://gemini.google.com/&followup=https://gemini.google.com/&ec=GAZAkgU
+  - main [ref=e8]:
+    - generic:
+      - button "Main menu" [ref=e9] [cursor=pointer]:
+        - img [ref=e10]: menu
+      - generic [ref=e16] [cursor=pointer]: Gemini
+    - generic [ref=e20]:
+      - link "About Gemini Opens in a new window" [ref=e21] [cursor=pointer]:
+        - /url: https://gemini.google/about/?utm_source=gemini&utm_medium=web&utm_campaign=gemini_zero_state_link_to_marketing_microsite
+        - text: About Gemini
+        - generic [ref=e22]: Opens in a new window
+      - link "Gemini App Opens in a new window" [ref=e23] [cursor=pointer]:
+        - /url: https://gemini.google.com/app/download
+        - text: Gemini App
+        - generic [ref=e24]: Opens in a new window
+      - link "Subscriptions Opens in a new window" [ref=e25] [cursor=pointer]:
+        - /url: https://one.google.com/ai
+        - text: Subscriptions
+        - generic [ref=e26]: Opens in a new window
+      - link "For Business Opens in a new window" [ref=e27] [cursor=pointer]:
+        - /url: https://workspace.google.com/solutions/ai/?utm_source=geminiforbusiness&utm_medium=et&utm_campaign=gemini-page-crosslink&utm_term=-&utm_content=forbusiness-2025Q3
+        - text: For Business
+        - generic [ref=e28]: Opens in a new window
+    - generic [ref=e30]:
+      - navigation [ref=e31]:
+        - generic [ref=e34]:
+          - group [ref=e35]:
+            - button "New chat" [ref=e37] [cursor=pointer]:
+              - img [ref=e40]: edit_square
+          - generic [ref=e43]:
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Sign in to start saving your chats
+                  - generic: Once you're signed in, you can access your recent chats here.
+                  - button "Sign in":
+                    - generic: Sign in
+          - group [ref=e44]:
+            - button "Settings & help" [ref=e46] [cursor=pointer]:
+              - img [ref=e49]: settings_2
+      - generic [ref=e58]:
+        - generic [ref=e59]:
+          - heading "Conversation with Gemini" [level=1] [ref=e60]
+          - generic [ref=e63]:
+            - generic [ref=e68]:
+              - button "Copy prompt" [ref=e70] [cursor=pointer]:
+                - img [ref=e71]: content_copy
+              - button "Edit" [ref=e75] [cursor=pointer]:
+                - img [ref=e76]: edit
+              - heading "<script>alert('Hello AI')</script>" [level=2] [ref=e81]:
+                - paragraph [ref=e82]: <script>alert('Hello AI')</script>
+            - generic [ref=e86]:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - button "Listen":
+                          - img: volume_up
+                    - menu
+              - generic [ref=e87]:
+                - generic [ref=e92]:
+                  - generic:
+                    - generic:
+                      - img
+                - generic [ref=e96]:
+                  - paragraph [ref=e97]: Hello! I received your message.
+                  - paragraph [ref=e98]: How can I help you today?
+              - generic [ref=e102]:
+                - button "Redo" [ref=e105] [cursor=pointer]:
+                  - img [ref=e106]: refresh
+                - button "Copy" [ref=e110]:
+                  - img [ref=e111]: content_copy
+                - button "Show more options" [ref=e117]:
+                  - img [ref=e118]: more_vert
+        - generic [ref=e121]:
+          - generic [ref=e125]:
+            - button "Open upload file menu" [ref=e131] [cursor=pointer]:
+              - img [ref=e132]: add_2
+            - textbox "Enter a prompt here" [active] [ref=e139]:
+              - text: Ask Gemini
+              - paragraph [ref=e140]
+            - generic [ref=e141]:
+              - button "2.5 Flash" [ref=e144]:
+                - button "2.5 Flash" [ref=e145]:
+                  - generic [ref=e147]:
+                    - generic [ref=e148]: 2.5 Flash
+                    - img [ref=e149]: keyboard_arrow_down
+              - generic [ref=e152]:
+                - button "Microphone" [ref=e155] [cursor=pointer]:
+                  - img [ref=e157]: mic
+                - text: send
+          - paragraph [ref=e162]: Gemini can make mistakes, so double-check it
+  - generic [ref=e167]: Use microphone
+```
