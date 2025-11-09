@@ -1,5 +1,10 @@
 # Gemini 未ログイン交互テストケース / Gemini Interaction Test Cases (Without Login)
 
+## Additional Documentation
+- For the end-to-end selection journey and architectural rationale, see `docs/AI_Testing_Journey.md`.
+- 日本語サマリーは `docs/AI_Testing_Journey_JP.md` を参照してください。
+- Detailed usage guide: `docs/USAGE.md` (English) / `docs/USAGE_JP.md` (日本語版)。
+
 ## 手動テストケース（日本語）
 
 ### 1. 未ログインでのチャット
