@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { selectors } from './data/selectors';
 import { expectResponseContains, submitChatPrompt } from './support/chat';
-import { attachText, captureScreenshot } from './support/artifacts';
+import { captureScreenshot } from './support/artifacts';
 import { logMessage } from './support/logger';
 
 const SCRIPT_QUERY = "<script>alert('Hello AI')</script>";

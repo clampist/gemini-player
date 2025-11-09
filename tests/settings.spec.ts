@@ -50,7 +50,7 @@ test.describe('Gemini settings switching', () => {
         )
         .toContain('dark-theme');
 
-      await captureScreenshot(test.info(), page, 'settings-1-theme-dark');
+      await captureScreenshot(test.info(), page, 'settings-3-theme-dark');
     });
 
     await test.step('Switch theme to Light', async () => {
@@ -71,7 +71,7 @@ test.describe('Gemini settings switching', () => {
         )
         .toContain('light-theme');
 
-      await captureScreenshot(test.info(), page, 'settings-2-theme-light');
+      await captureScreenshot(test.info(), page, 'settings-4-theme-light');
     });
   });
 });

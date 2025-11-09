@@ -88,7 +88,7 @@ test.describe('Chat with Gemini without login', () => {
       const copiedText = await page.evaluate(async () => {
         return navigator.clipboard.readText();
       });
-      await expect.soft(copiedText).toMatch(/Blackwell/i);
+      expect.soft(copiedText).toMatch(/Blackwell/i);
 
       await attachText(test.info(), 'chat-copied-text', copiedText);
       await logMessage(test.info(), 'Copied redo response to clipboard');
