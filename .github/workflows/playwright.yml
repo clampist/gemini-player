@@ -3,8 +3,12 @@ name: Playwright E2E
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '**/*.md'
   pull_request:
     branches: [main]
+    paths-ignore:
+      - '**/*.md'
 
 jobs:
   tests_e2e:
