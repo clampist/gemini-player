@@ -70,9 +70,9 @@ jobs:
             TIMESTAMP=$(date +%Y%m%d-%H%M%S)
             mkdir -p publish/history/$TIMESTAMP
             cp -R playwright-report/* publish/history/$TIMESTAMP/
-            cat <<EOF > publish/index.html
-            <meta http-equiv="refresh" content="0; url=latest/index.html">
-            EOF
+            cat <<'EOF' > publish/index.html
+<meta http-equiv="refresh" content="0; url=latest/index.html">
+EOF
             echo "has_report=true" >> "$GITHUB_OUTPUT"
           else
             echo "No playwright-report directory found; skipping publish preparation."
