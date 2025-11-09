@@ -3,4 +3,7 @@ test-results/
 playwright-report/
 blob-report/
 playwright/.cache/
+artifacts/
+logs/
+.env
 .DS_Store
