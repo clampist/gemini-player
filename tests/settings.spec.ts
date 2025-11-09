@@ -7,6 +7,7 @@ test.describe('Gemini settings switching', () => {
   test('Renders Japanese locale and switches back to English', async ({ page }) => {
     await test.step('Open Japanese locale', async () => {
       await page.goto('/?hl=ja');
+      await page.waitForLoadState('networkidle');
       await expect(page.locator('html')).toHaveAttribute('lang', /ja/i);
       await logMessage(test.info(), 'Opened homepage with hl=ja');
 
@@ -15,6 +16,7 @@ test.describe('Gemini settings switching', () => {
 
     await test.step('Switch back to English locale', async () => {
       await page.goto('/');
+      await page.waitForLoadState('networkidle');
       await expect(page.locator('html')).toHaveAttribute('lang', /en/i);
       await logMessage(test.info(), 'Navigated back to default locale');
 
@@ -50,7 +52,7 @@ test.describe('Gemini settings switching', () => {
         )
         .toContain('dark-theme');
 
-      await captureScreenshot(test.info(), page, 'settings-1-theme-dark');
+      await captureScreenshot(test.info(), page, 'settings-3-theme-dark');
     });
 
     await test.step('Switch theme to Light', async () => {
@@ -71,7 +73,7 @@ test.describe('Gemini settings switching', () => {
         )
         .toContain('light-theme');
 
-      await captureScreenshot(test.info(), page, 'settings-2-theme-light');
+      await captureScreenshot(test.info(), page, 'settings-4-theme-light');
     });
   });
 });
