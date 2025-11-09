@@ -34,6 +34,7 @@ export async function submitChatPrompt(page: Page, prompt: string, testInfo?: Te
       await primaryButton.click({ force: true });
       await waitForStreamingToStart(page, testInfo);
       // fallback to Enter key submission / エンターキー送信にフォールバック
+      // TODO: check if this is the best way to submit the prompt / これが最良の方法かどうかを確認する
       await input.press('Enter');
       return true;
     })
