@@ -2,8 +2,13 @@ import { test, expect } from '@playwright/test';
 import { GeminiChatPage } from './pages/GeminiChatPage';
 import { getBaseOrigin } from './support/utils';
 import { attachText } from './support/artifacts';
-
-const SEARCH_QUERY = 'Nvidia Blackwell chip demand surge';
+import {
+  ChatPrompts,
+  ChatResponsePatterns,
+  ChatTimeouts,
+  ChatScreenshots,
+  ChatArtifacts
+} from './data/testData';
 
 test.describe('Chat with Gemini without login', () => {
   test.beforeEach(async ({ context }) => {
@@ -20,35 +25,35 @@ test.describe('Chat with Gemini without login', () => {
     });
 
     await test.step('Submit search request', async () => {
-      await chatPage.submitPrompt(SEARCH_QUERY);
+      await chatPage.submitPrompt(ChatPrompts.nvidia);
     });
 
     await test.step('Confirm search response', async () => {
-      await chatPage.expectResponseAt(0, /Nvidia[\s\S]*Blackwell/i);
-      await chatPage.takeScreenshot('chat-1-primary-response');
+      await chatPage.expectResponseAt(0, ChatResponsePatterns.nvidia);
+      await chatPage.takeScreenshot(ChatScreenshots.primaryResponse);
     });
 
     await test.step('Submit search request in Japanese', async () => {
-      await chatPage.submitPrompt('Please answer me in Japanese');
+      await chatPage.submitPrompt(ChatPrompts.japaneseRequest);
     });
 
     await test.step('Confirm search response in Japanese', async () => {
       await chatPage.expectResponseAt(1, undefined, { 
-        timeout: 20_000, 
+        timeout: ChatTimeouts.japaneseResponse, 
         expectJapanese: true 
       });
-      await chatPage.takeScreenshot('chat-2-japanese-response');
+      await chatPage.takeScreenshot(ChatScreenshots.japaneseResponse);
     });
 
     await test.step('Redo latest Japanese response', async () => {
       await chatPage.redoLatestResponse();
-      await chatPage.takeScreenshot('chat-3-redo-response');
+      await chatPage.takeScreenshot(ChatScreenshots.redoResponse);
     });
 
     await test.step('Copy redo response', async () => {
       const copiedText = await chatPage.copyLatestResponse();
-      expect(copiedText).toMatch(/Blackwell/i);
-      await attachText(test.info(), 'chat-copied-text', copiedText);
+      expect(copiedText).toMatch(ChatResponsePatterns.blackwell);
+      await attachText(test.info(), ChatArtifacts.copiedText, copiedText);
     });
   });
 });

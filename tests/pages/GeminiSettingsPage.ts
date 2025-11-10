@@ -1,39 +1,28 @@
-import { Page, expect, TestInfo } from '@playwright/test';
+import { expect, Page, TestInfo } from '@playwright/test';
 import { selectors } from '../data/selectors';
-import { logMessage } from '../support/logger';
-import { captureScreenshot } from '../support/artifacts';
+import { BasePage } from './BasePage';
 
-export class GeminiSettingsPage {
-  readonly page: Page;
-  private testInfo?: TestInfo;
-
+export class GeminiSettingsPage extends BasePage {
   constructor(page: Page, testInfo?: TestInfo) {
-    this.page = page;
-    this.testInfo = testInfo;
+    super(page, testInfo);
   }
 
   async openWithLocale(locale?: string) {
     const url = locale ? `/?hl=${locale}` : '/';
-    await this.page.goto(url);
-    if (this.testInfo) {
-      await logMessage(this.testInfo, `Opened page with locale: ${locale ?? 'default'}`);
-    }
+    await this.goto(url);
+    await this.log(`Opened page with locale: ${locale ?? 'default'}`);
   }
 
   async expectLocale(locale: string) {
     await expect(this.page.locator('html')).toHaveAttribute('lang', new RegExp(locale, 'i'));
-    if (this.testInfo) {
-      await logMessage(this.testInfo, `Confirmed locale: ${locale}`);
-    }
+    await this.log(`Confirmed locale: ${locale}`);
   }
 
   async openSettingsPanel() {
     const settingsButton = this.page.locator(selectors.settings.panelTrigger).first();
     await expect(settingsButton).toBeVisible({ timeout: 10_000 });
     await settingsButton.click();
-    if (this.testInfo) {
-      await logMessage(this.testInfo, 'Opened settings panel');
-    }
+    await this.log('Opened settings panel');
   }
 
   async switchTheme(theme: 'dark' | 'light') {
@@ -48,9 +37,7 @@ export class GeminiSettingsPage {
     await expect(themeOption).toBeVisible({ timeout: 5_000 });
     await themeOption.click();
 
-    if (this.testInfo) {
-      await logMessage(this.testInfo, `Selected ${theme} theme`);
-    }
+    await this.log(`Selected ${theme} theme`);
   }
 
   async expectTheme(theme: 'dark' | 'light') {
@@ -60,15 +47,7 @@ export class GeminiSettingsPage {
       )
       .toContain(`${theme}-theme`);
     
-    if (this.testInfo) {
-      await logMessage(this.testInfo, `Confirmed ${theme} theme applied`);
-    }
-  }
-
-  async takeScreenshot(name: string) {
-    if (this.testInfo) {
-      await captureScreenshot(this.testInfo, this.page, name);
-    }
+    await this.log(`Confirmed ${theme} theme applied`);
   }
 }
 
