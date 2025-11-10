@@ -27,11 +27,30 @@ npm test
 
 ### Project Layout
 
+This project uses the **Page Object pattern** for clean, maintainable test code:
+
+```
+tests/
+├── chat.spec.ts                  (Chat test - pure business logic)
+├── search.spec.ts                (Search test - pure business logic)
+├── settings.spec.ts              (Settings test - pure business logic)
+├── pages/
+│   ├── GeminiChatPage.ts         (Chat page interactions)
+│   ├── GeminiSearchPage.ts       (Search page interactions)
+│   └── GeminiSettingsPage.ts     (Settings page interactions)
+├── support/
+│   ├── artifacts.ts              (Screenshot & text helpers)
+│   ├── logger.ts                 (Logging utilities)
+│   └── utils.ts                  (Common utilities)
+└── data/
+    └── selectors.ts              (Centralized selectors)
+```
+
+**Key Files:**
 - `playwright.config.ts` — shared Playwright configuration with Gemini base URL.
-- `tests/chat.spec.ts` — chat surface smoke test with prompt variations.
-- `tests/search.spec.ts` — exercises script-style inputs and search empty states.
-- `tests/settings.spec.ts` — verifies locale toggling and theme configuration.
-- `tests/support/` — reusable helpers (chat interactions, artifact helpers).
+- `tests/pages/` — Page Object classes that encapsulate page interactions, selectors, and wait strategies.
+- `tests/*.spec.ts` — test files that focus on business scenarios using Page Objects.
+- `tests/support/` — reusable utilities for logging, screenshots, and common operations.
 - `tests/data/selectors.ts` — central place for selectors and data-test-ids.
 - `env.example` — sample environment variables (copy to `.env` for overrides).
 
@@ -60,6 +79,40 @@ A GitHub Actions workflow (`.github/workflows/playwright.yml`) runs on pushes an
 - `screenshots` — raw PNG files captured during the suite.
 
 Artifacts are retained for seven days; adjust `retention-days` inside the workflow if you need a longer window.
+
+### Writing Tests with Page Objects
+
+Example test structure:
+
+```typescript
+import { test } from '@playwright/test';
+import { GeminiChatPage } from './pages/GeminiChatPage';
+
+test('Ask Gemini and validate response', async ({ page }) => {
+  const chatPage = new GeminiChatPage(page, test.info());
+
+  await test.step('Open chat', async () => {
+    await chatPage.open();
+  });
+
+  await test.step('Submit prompt', async () => {
+    await chatPage.submitPrompt('Tell me about AI');
+  });
+
+  await test.step('Validate response', async () => {
+    await chatPage.expectResponseAt(0, /AI|artificial intelligence/i);
+    await chatPage.takeScreenshot('ai-response');
+  });
+});
+```
+
+**Best Practices:**
+- Initialize Page Object with `page` and `test.info()` for automatic logging
+- Use `test.step()` to organize test scenarios
+- Page Object methods handle all selectors, waits, and retries
+- Tests focus on business logic, not implementation details
+
+For detailed Page Object documentation, see [tests/pages/README.md](../tests/pages/README.md).
 
 ### Notes
 
