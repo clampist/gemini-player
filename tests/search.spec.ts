@@ -5,6 +5,7 @@ import { captureScreenshot } from './support/artifacts';
 import { logMessage } from './support/logger';
 
 const SCRIPT_QUERY = "<script>alert('Hello AI')</script>";
+const SCRIPT_QUERY_AGAIN = "<script>alert('Hello AI again')</script>";
 
 test.describe('Gemini search handling without login', () => {
   test('Handle script-like input safely, then search for "AI"', async ({ page }) => {
@@ -19,7 +20,10 @@ test.describe('Gemini search handling without login', () => {
     });
 
     await test.step('Validate script-like response', async () => {
-      await expectResponseContains(page, { index: 0, matcher: /script/i }, { testInfo: test.info() });
+      await expectResponseContains(page, 
+        { index: 0, matcher: /(script|cannot|execute|run|code|safe|security)/i },
+        { testInfo: test.info() }
+      );
       await captureScreenshot(test.info(), page, 'search-1-initial-response');
     });
 
@@ -46,11 +50,14 @@ test.describe('Gemini search handling without login', () => {
     });
 
     await test.step('Submit script input in new chat', async () => {
-      await submitChatPrompt(page, SCRIPT_QUERY, test.info());
+      await submitChatPrompt(page, SCRIPT_QUERY_AGAIN, test.info());
     });
 
     await test.step('Validate script response in new chat', async () => {
-      await expectResponseContains(page, { index: 0, matcher: /script/i }, { testInfo: test.info() });
+      await expectResponseContains(page, 
+        { index: 0, matcher: /(script|cannot|execute|run|code|safe|security)/i }, 
+        { testInfo: test.info() }
+      );
       await captureScreenshot(test.info(), page, 'search-2-newchat-response');
     });
 

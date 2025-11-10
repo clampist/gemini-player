@@ -4,12 +4,8 @@ import { logMessage } from './logger';
 import { containsJapanese } from './utils';
 
 export async function locateChatInput(page: Page): Promise<Locator> {
-  const placeholderLocator = page.getByPlaceholder(/(search|ask)/i);
-  if (await placeholderLocator.count()) {
-    return placeholderLocator.first();
-  }
-
-  const roleLocator = page.getByRole('textbox', { name: /(search|ask)/i });
+  // aria-label="Enter a prompt here"
+  const roleLocator = page.getByRole('textbox', { name: /(prompt|search|ask)/i });
   if (await roleLocator.count()) {
     return roleLocator.first();
   }
