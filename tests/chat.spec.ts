@@ -5,7 +5,7 @@ import { attachText } from './support/artifacts';
 
 const SEARCH_QUERY = 'Nvidia Blackwell chip demand surge';
 
-test.describe('Chat with Gemini without login (Page Object)', () => {
+test.describe('Chat with Gemini without login', () => {
   test.beforeEach(async ({ context }) => {
     await context.grantPermissions(['clipboard-read', 'clipboard-write'], {
       origin: getBaseOrigin()

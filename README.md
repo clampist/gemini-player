@@ -1,10 +1,10 @@
 # Gemini 未ログイン交互テストケース / Gemini Interaction Test Cases Without Login
 
 ## 追加ドキュメント / Additional Documentation
-- 日本語サマリーは [docs/AI_Testing_Journey_JP.md](https://github.com/clampist/gemini-player/blob/main/docs/AI_Testing_Journey_JP.md) を参照してください。
+- 日本語サマリーは [docs/AIテストのジャーニー.md](https://github.com/clampist/gemini-player/blob/main/docs/AIテストのジャーニー.md) を参照してください。
 - For the end-to-end selection journey and architectural rationale, see [docs/AI_Testing_Journey.md](https://github.com/clampist/gemini-player/blob/main/docs/AI_Testing_Journey.md).
 
-- 詳細な使用ガイド / Detailed usage guide: [docs/USAGE_JP.md](https://github.com/clampist/gemini-player/blob/main/docs/USAGE_JP.md) (日本語版) / [docs/USAGE.md](https://github.com/clampist/gemini-player/blob/main/docs/USAGE.md) (English).
+- 詳細な使用ガイド / Detailed usage guide: [docs/使用ガイド.md](https://github.com/clampist/gemini-player/blob/main/docs/使用ガイド.md) (日本語版) / [docs/USAGE.md](https://github.com/clampist/gemini-player/blob/main/docs/USAGE.md) (English).
 
 
 ## 手動テストケース（日本語）

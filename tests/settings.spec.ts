@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 import { GeminiSettingsPage } from './pages/GeminiSettingsPage';
 
-test.describe('Gemini settings switching (Page Object)', () => {
+test.describe('Gemini settings switching', () => {
   test('Renders Japanese locale and switches back to English', async ({ page }) => {
     const settingsPage = new GeminiSettingsPage(page, test.info());
 
