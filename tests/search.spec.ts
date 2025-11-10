@@ -5,7 +5,7 @@ import { GeminiSearchPage } from './pages/GeminiSearchPage';
 const SCRIPT_QUERY = "<script>alert('Hello AI')</script>";
 const SCRIPT_QUERY_AGAIN = "<script>alert('Hello AI again')</script>";
 
-test.describe('Gemini search handling without login (Page Object)', () => {
+test.describe('Gemini search handling without login', () => {
   test('Handle script-like input safely, then search for "AI"', async ({ page }) => {
     const chatPage = new GeminiChatPage(page, test.info());
     const searchPage = new GeminiSearchPage(page, test.info());
