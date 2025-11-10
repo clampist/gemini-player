@@ -5,7 +5,7 @@ const globals = require('globals');
 module.exports = [
   { ignores: ['dist/**', 'node_modules/**'] },
   {
-    files: ['tests/**/*.{ts,tsx}'],
+    files: ['tests/**/*.{ts,tsx}', '*.ts'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
