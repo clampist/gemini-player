@@ -1,9 +1,12 @@
 import { test } from '@playwright/test';
 import { GeminiChatPage } from './pages/GeminiChatPage';
 import { GeminiSearchPage } from './pages/GeminiSearchPage';
-
-const SCRIPT_QUERY = "<script>alert('Hello AI')</script>";
-const SCRIPT_QUERY_AGAIN = "<script>alert('Hello AI again')</script>";
+import {
+  ScriptQueries,
+  SearchQueries,
+  ScriptResponsePattern,
+  SearchScreenshots
+} from './data/testData';
 
 test.describe('Gemini search handling without login', () => {
   test('Handle script-like input safely, then search for "AI"', async ({ page }) => {
@@ -15,12 +18,12 @@ test.describe('Gemini search handling without login', () => {
     });
 
     await test.step('Submit script-like input', async () => {
-      await chatPage.submitPrompt(SCRIPT_QUERY);
+      await chatPage.submitPrompt(ScriptQueries.alert);
     });
 
     await test.step('Validate script-like response', async () => {
-      await chatPage.expectResponseAt(0, /(script|cannot|execute|run|code|safe|security|help)/i);
-      await chatPage.takeScreenshot('search-1-initial-response');
+      await chatPage.expectResponseAt(0, ScriptResponsePattern);
+      await chatPage.takeScreenshot(SearchScreenshots.initialResponse);
     });
 
     await test.step('Start new chat flow', async () => {
@@ -28,12 +31,12 @@ test.describe('Gemini search handling without login', () => {
     });
 
     await test.step('Submit script input in new chat', async () => {
-      await chatPage.submitPrompt(SCRIPT_QUERY_AGAIN);
+      await chatPage.submitPrompt(ScriptQueries.alertAgain);
     });
 
     await test.step('Validate script response in new chat', async () => {
-      await chatPage.expectResponseAt(0, /(script|cannot|execute|run|code|safe|security|help)/i);
-      await chatPage.takeScreenshot('search-2-newchat-response');
+      await chatPage.expectResponseAt(0, ScriptResponsePattern);
+      await chatPage.takeScreenshot(SearchScreenshots.newChatResponse);
     });
 
     await test.step('Visit search page for empty state', async () => {
@@ -42,10 +45,10 @@ test.describe('Gemini search handling without login', () => {
     });
 
     await test.step('Search page shows pending state for AI query', async () => {
-      await searchPage.searchFor('AI');
+      await searchPage.searchFor(SearchQueries.simple);
       await searchPage.expectProgressBar();
       await searchPage.expectEmptyState();
-      await searchPage.takeScreenshot('search-3-progress-bar');
+      await searchPage.takeScreenshot(SearchScreenshots.progressBar);
     });
   });
 });

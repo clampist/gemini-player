@@ -1,26 +1,19 @@
-import { Page, Locator, expect, TestInfo } from '@playwright/test';
+import { Locator, expect, Page, TestInfo } from '@playwright/test';
 import { selectors } from '../data/selectors';
-import { logMessage } from '../support/logger';
-import { captureScreenshot } from '../support/artifacts';
 import { containsJapanese } from '../support/utils';
+import { BasePage } from './BasePage';
 
-export class GeminiChatPage {
-  readonly page: Page;
-  private testInfo?: TestInfo;
-
+export class GeminiChatPage extends BasePage {
   constructor(page: Page, testInfo?: TestInfo) {
-    this.page = page;
-    this.testInfo = testInfo;
+    super(page, testInfo);
   }
 
   // Navigation
   async open() {
-    await this.page.goto('/');
+    await this.goto('/');
     await expect(this.page).toHaveTitle(/gemini/i);
     await expect(this.page.locator('body')).toBeVisible();
-    if (this.testInfo) {
-      await logMessage(this.testInfo, 'Opened Gemini chat page');
-    }
+    await this.log('Opened Gemini chat page');
   }
 
   // Chat input operations
@@ -37,9 +30,7 @@ export class GeminiChatPage {
     await expect(input, 'chat input should be visible').toBeVisible();
     await input.fill(prompt);
     
-    if (this.testInfo) {
-      await logMessage(this.testInfo, `Submitting prompt: ${prompt}`);
-    }
+    await this.log(`Submitting prompt: ${prompt}`);
 
     // Try primary button
     const primaryButton = this.page.locator(selectors.chat.sendButton).first();
@@ -69,23 +60,17 @@ export class GeminiChatPage {
 
     // Final fallback: Enter key
     await input.press('Enter');
-    if (this.testInfo) {
-      await logMessage(this.testInfo, 'Fallback to Enter key submission');
-    }
+    await this.log('Fallback to Enter key submission');
   }
 
   private async waitForStreamingToStart(): Promise<boolean> {
     const stopButton = this.page.getByRole('button', selectors.chat.stopButtonRole);
     try {
       await stopButton.waitFor({ state: 'visible', timeout: 10_000 });
-      if (this.testInfo) {
-        await logMessage(this.testInfo, 'Streaming started (Stop button visible)');
-      }
+      await this.log('Streaming started (Stop button visible)');
       return true;
     } catch {
-      if (this.testInfo) {
-        await logMessage(this.testInfo, 'Streaming did not start (Stop button not visible)');
-      }
+      await this.log('Streaming did not start (Stop button not visible)');
       return false;
     }
   }
@@ -93,9 +78,7 @@ export class GeminiChatPage {
   private async waitForStreamingToFinish() {
     const stopButton = this.page.getByRole('button', selectors.chat.stopButtonRole);
     await stopButton.waitFor({ state: 'hidden', timeout: 40_000 }).catch(() => undefined);
-    if (this.testInfo) {
-      await logMessage(this.testInfo, 'Streaming finished (Stop button hidden)');
-    }
+    await this.log('Streaming finished (Stop button hidden)');
   }
 
   // Response operations
@@ -130,12 +113,7 @@ export class GeminiChatPage {
         .toBe(true);
     }
 
-    if (this.testInfo) {
-      await logMessage(
-        this.testInfo,
-        `Validated response #${index + 1} contains: ${matcher ?? 'JP characters'}`
-      );
-    }
+    await this.log(`Validated response #${index + 1} contains: ${matcher ?? 'JP characters'}`);
 
     return response;
   }
@@ -155,9 +133,7 @@ export class GeminiChatPage {
 
     await expect(responseList.last()).toBeVisible({ timeout: 20_000 });
 
-    if (this.testInfo) {
-      await logMessage(this.testInfo, 'Redid latest response');
-    }
+    await this.log('Redid latest response');
   }
 
   async copyLatestResponse(): Promise<string> {
@@ -173,9 +149,7 @@ export class GeminiChatPage {
       return navigator.clipboard.readText();
     });
 
-    if (this.testInfo) {
-      await logMessage(this.testInfo, 'Copied latest response to clipboard');
-    }
+    await this.log('Copied latest response to clipboard');
 
     return copiedText;
   }
@@ -200,15 +174,7 @@ export class GeminiChatPage {
     await expect(confirmButton).toBeEnabled({ timeout: 10_000 });
     await confirmButton.click();
 
-    if (this.testInfo) {
-      await logMessage(this.testInfo, 'Started new chat');
-    }
-  }
-
-  async takeScreenshot(name: string) {
-    if (this.testInfo) {
-      await captureScreenshot(this.testInfo, this.page, name);
-    }
+    await this.log('Started new chat');
   }
 }
 

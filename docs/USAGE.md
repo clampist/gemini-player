@@ -34,7 +34,9 @@ tests/
 ├── chat.spec.ts                  (Chat test - pure business logic)
 ├── search.spec.ts                (Search test - pure business logic)
 ├── settings.spec.ts              (Settings test - pure business logic)
+├── smoke.spec.ts                 (Smoke tests for CI)
 ├── pages/
+│   ├── BasePage.ts               (Base class for all Page Objects)
 │   ├── GeminiChatPage.ts         (Chat page interactions)
 │   ├── GeminiSearchPage.ts       (Search page interactions)
 │   └── GeminiSettingsPage.ts     (Settings page interactions)
@@ -48,6 +50,7 @@ tests/
 
 **Key Files:**
 - `playwright.config.ts` — shared Playwright configuration with Gemini base URL.
+- `tests/pages/BasePage.ts` — abstract base class providing common functionality for all Page Objects (logging, screenshots, navigation).
 - `tests/pages/` — Page Object classes that encapsulate page interactions, selectors, and wait strategies.
 - `tests/*.spec.ts` — test files that focus on business scenarios using Page Objects.
 - `tests/support/` — reusable utilities for logging, screenshots, and common operations.
