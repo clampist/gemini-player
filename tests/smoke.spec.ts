@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { GeminiChatPage } from './pages/GeminiChatPage';
 import { GeminiSearchPage } from './pages/GeminiSearchPage';
 import { GeminiSettingsPage } from './pages/GeminiSettingsPage';
