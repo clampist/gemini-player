@@ -6,6 +6,7 @@
 
 - 詳細な使用ガイド / Detailed usage guide: [docs/USAGE_JP.md](https://github.com/clampist/gemini-player/blob/main/docs/USAGE_JP.md) (日本語版) / [docs/USAGE.md](https://github.com/clampist/gemini-player/blob/main/docs/USAGE.md) (English).
 
+
 ## 手動テストケース（日本語）
 
 ### 1. 未ログインでのチャット
@@ -39,6 +40,12 @@
   2. “Dark” テーマを選び、画面がダークテーマに変わり、`dark-theme` クラスが付与されることを確認する。
   3. “Light” テーマに戻し、画面がライトテーマに変わり、`light-theme` クラスが付与されることを確認する。
 - **期待結果**: `hl` パラメータに応じて言語が切り替わり、テーマ変更が即座に反映される。
+
+
+### Playwright テスト記法ガイド
+- 変数・定数命名: テストファイル内で都度定義する値は camelCase を使用し、モジュール全体で共有する定数のみ SCREAMING_SNAKE_CASE を使用します。
+- アサーション: 失敗時にシナリオを即停止すべきチェックでは通常の `expect` を、必須ではない補足検証のみ `expect.soft` を使用します。特別な理由がある場合はテスト内コメントで意図を明記してください。
+- ステップ定義: `test.step` ではビジネス上の意味が分かる説明文を付け、ページ操作の詳細は `tests/support/` 配下のヘルパーに集約してください。
 
 
 ---
@@ -77,3 +84,9 @@
   2. Choose “Dark” theme and confirm the UI switches (body class includes `dark-theme`).
   3. Switch back to “Light” and confirm the UI reverts (body class includes `light-theme`).
 - **Expected**: Locale changes match the `hl` parameter; theme toggles update the appearance immediately.
+
+
+### Playwright Test Conventions
+- **Naming:** Use camelCase for ad-hoc values declared inside a test. Reserve SCREAMING_SNAKE_CASE for constants shared across the module.
+- **Assertions:** Prefer regular `expect` for critical checks. Only use `expect.soft` for non-blocking validations and document the rationale with comments when you do.
+- **Steps:** Give each `test.step` a business-meaningful description and keep page-operation details inside helpers under `tests/support/`.

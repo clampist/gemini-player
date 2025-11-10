@@ -32,26 +32,28 @@ test.describe('Chat with Gemini without login', () => {
     });
 
     await test.step('Confirm search response', async () => {
-      const first_response_index = 0;
-      await expectResponseContains(page,
-        { index: first_response_index, matcher: /Nvidia[\s\S]*Blackwell/i }, 
+      const firstResponseIndex = 0;
+      await expectResponseContains(
+        page,
+        { index: firstResponseIndex, matcher: /Nvidia[\s\S]*Blackwell/i },
         { testInfo: test.info() }
       );
 
       await captureScreenshot(test.info(), page, 'chat-1-primary-response');
     });
 
-    await test.step('Submit search request in Japanese', async () => {              
-      const SEARCH_PERFENCE = 'Please answer me in Japanese';
-      await submitChatPrompt(page, SEARCH_PERFENCE, test.info());
+    await test.step('Submit search request in Japanese', async () => {
+      const searchPreference = 'Please answer me in Japanese';
+      await submitChatPrompt(page, searchPreference, test.info());
     });
 
     await test.step('Confirm search response in Japanese', async () => {
-        const second_response_index = 1;
-        await expectResponseContains(page,
-          { index: second_response_index, expectJapanese: true }, 
-          { timeout: 20_000, testInfo: test.info() }
-        );
+      const secondResponseIndex = 1;
+      await expectResponseContains(
+        page,
+        { index: secondResponseIndex, expectJapanese: true },
+        { timeout: 20_000, testInfo: test.info() }
+      );
   
         await captureScreenshot(test.info(), page, 'chat-2-japanese-response');
     });
@@ -88,7 +90,7 @@ test.describe('Chat with Gemini without login', () => {
       const copiedText = await page.evaluate(async () => {
         return navigator.clipboard.readText();
       });
-      expect.soft(copiedText).toMatch(/Blackwell/i);
+      expect(copiedText).toMatch(/Blackwell/i);
 
       await attachText(test.info(), 'chat-copied-text', copiedText);
       await logMessage(test.info(), 'Copied redo response to clipboard');

@@ -63,6 +63,6 @@ Artifacts are retained for seven days; adjust `retention-days` inside the workfl
 
 ### Notes
 
-- The search flow relies on common Gemini selectors. If the public site changes, update the locators in `tests/chat.spec.ts`.
+- The search flow relies on common Gemini selectors. If the public site changes, update the locators in `tests/data/selectors.ts`.
 - Browser binaries are managed via `npx playwright install`. Re-run the command if you delete the Playwright cache.
 

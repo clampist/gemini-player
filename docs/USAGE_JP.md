@@ -63,6 +63,6 @@ GitHub Actions ワークフロー（`.github/workflows/playwright.yml`）は `ma
 
 ### 注意事項
 
-- 検索フローは Gemini の一般的なセレクタに依存しています。公開サイトが変更された場合は `tests/chat.spec.ts` のロケータを更新してください。
+- 検索フローは Gemini の一般的なセレクタに依存しています。公開サイトが変更された場合は `tests/data/selectors.ts` のロケータを更新してください。
 - ブラウザバイナリは `npx playwright install` で管理しています。Playwright キャッシュを削除した場合は再実行してください。
 
