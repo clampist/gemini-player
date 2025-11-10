@@ -4,7 +4,7 @@ import { GeminiSearchPage } from './pages/GeminiSearchPage';
 import { GeminiSettingsPage } from './pages/GeminiSettingsPage';
 
 test.describe('Smoke Tests', () => {
-  test('Critical path: Homepage loads and basic chat works', async ({ page, context }) => {
+  test('Critical path: Homepage loads and basic chat works', async ({ page }) => {
     const chatPage = new GeminiChatPage(page, test.info());
 
     await test.step('Verify homepage loads', async () => {
