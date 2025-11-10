@@ -46,7 +46,7 @@
 - 変数・定数命名: テストファイル内で都度定義する値は camelCase を使用し、モジュール全体で共有する定数のみ SCREAMING_SNAKE_CASE を使用します。
 - アサーション: 失敗時にシナリオを即停止すべきチェックでは通常の `expect` を、必須ではない補足検証のみ `expect.soft` を使用します。特別な理由がある場合はテスト内コメントで意図を明記してください。
 - ステップ定義: `test.step` ではビジネス上の意味が分かる説明文を付け、ページ操作の詳細は `tests/support/` 配下のヘルパーに集約してください。
-- Page Object パターン: `tests/pages/` 配下に Page Object クラスを用意しています。選択器・待機・リトライ戦略を Page Object に集約し、テスト本体ではビジネスロジックのみを記述できます。詳細は [tests/pages/README.md](tests/pages/README.md) を参照してください。
+- Page Object パターン: `tests/pages/` 配下に Page Object クラスを用意しています。選択器・待機・リトライ戦略を Page Object に集約し、テスト本体ではビジネスロジックのみを記述できます。
 
 
 ---
@@ -91,4 +91,4 @@
 - **Naming:** Use camelCase for ad-hoc values declared inside a test. Reserve SCREAMING_SNAKE_CASE for constants shared across the module.
 - **Assertions:** Prefer regular `expect` for critical checks. Only use `expect.soft` for non-blocking validations and document the rationale with comments when you do.
 - **Steps:** Give each `test.step` a business-meaningful description and keep page-operation details inside helpers under `tests/support/`.
-- **Page Objects:** Page Object classes are available in `tests/pages/`. They encapsulate selectors, waits, and retry logic, allowing test specs to focus on business scenarios. See [tests/pages/README.md](tests/pages/README.md) for details.
+- **Page Objects:** Page Object classes are available in `tests/pages/`. They encapsulate selectors, waits, and retry logic, allowing test specs to focus on business scenarios.
