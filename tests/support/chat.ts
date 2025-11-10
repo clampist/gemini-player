@@ -28,11 +28,7 @@ export async function submitChatPrompt(page: Page, prompt: string, testInfo?: Te
     .then(async () => {
       await expect(primaryButton).toBeEnabled({ timeout: 5_000 });
       await primaryButton.click({ force: true });
-      await waitForStreamingToStart(page, testInfo);
-      // fallback to Enter key submission / エンターキー送信にフォールバック
-      // TODO: check if this is the best way to submit the prompt / これが最良の方法かどうかを確認する
-      await input.press('Enter');
-      return true;
+      return await waitForStreamingToStart(page, testInfo);
     })
     .catch(() => false);
 
@@ -40,13 +36,15 @@ export async function submitChatPrompt(page: Page, prompt: string, testInfo?: Te
     return;
   }
 
-  const fallbackButton = page.getByRole('button', { name: /(search|ask|send|submit)/i }).first();
+  const fallbackButton = page.locator('button.send-button').first();
 
   if (await fallbackButton.isVisible()) {
     await expect(fallbackButton).toBeEnabled({ timeout: 5_000 });
     await fallbackButton.click();
-    await waitForStreamingToStart(page, testInfo);
-    return;
+    const usedFallback = await waitForStreamingToStart(page, testInfo);
+    if (usedFallback) {
+      return;
+    }
   }
 
   await input.press('Enter');
@@ -55,11 +53,19 @@ export async function submitChatPrompt(page: Page, prompt: string, testInfo?: Te
   }
 }
 
-export async function waitForStreamingToStart(page: Page, testInfo?: TestInfo) {
+export async function waitForStreamingToStart(page: Page, testInfo?: TestInfo): Promise<boolean> {
   const stopButton = page.getByRole('button', selectors.chat.stopButtonRole);
-  await stopButton.waitFor({ state: 'visible', timeout: 10_000 }).catch(() => undefined);
-  if (testInfo) {
-    await logMessage(testInfo, 'Streaming started (Stop button visible)');
+  try {
+    await stopButton.waitFor({ state: 'visible', timeout: 10_000 });
+    if (testInfo) {
+      await logMessage(testInfo, 'Streaming started (Stop button visible)');
+    }
+    return true;
+  } catch {
+    if (testInfo) {
+      await logMessage(testInfo, 'Streaming did not start (Stop button not visible)');
+    }
+    return false;
   }
 }
 
