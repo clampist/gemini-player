@@ -17,6 +17,4 @@
 - Gemini can temporarily throttle or block frequent scripted requests; limited execution to Chromium and recommend spacing out runs to reduce rate-limit risk.
 - Maintain awareness that selectors may change without notice on public AI frontends; plan for periodic locator audits.
 
-### Outstanding Work
-- `TODO`: when submitting a chat prompt, Playwright occasionally needs `await input.press('Enter');` as a safety net—refine the flow so the fallback is no longer required.
 

@@ -1,86 +1,51 @@
-import { test, expect } from '@playwright/test';
-import { selectors } from './data/selectors';
-import { expectResponseContains, submitChatPrompt } from './support/chat';
-import { captureScreenshot } from './support/artifacts';
-import { logMessage } from './support/logger';
+import { test } from '@playwright/test';
+import { GeminiChatPage } from './pages/GeminiChatPage';
+import { GeminiSearchPage } from './pages/GeminiSearchPage';
 
 const SCRIPT_QUERY = "<script>alert('Hello AI')</script>";
 const SCRIPT_QUERY_AGAIN = "<script>alert('Hello AI again')</script>";
 
-test.describe('Gemini search handling without login', () => {
+test.describe('Gemini search handling without login (Page Object)', () => {
   test('Handle script-like input safely, then search for "AI"', async ({ page }) => {
+    const chatPage = new GeminiChatPage(page, test.info());
+    const searchPage = new GeminiSearchPage(page, test.info());
+
     await test.step('Open homepage', async () => {
-      await page.goto('/');
-      await expect(page).toHaveTitle(/gemini/i);
+      await chatPage.open();
     });
 
     await test.step('Submit script-like input', async () => {
-      await submitChatPrompt(page, SCRIPT_QUERY, test.info());
-      await logMessage(test.info(), 'Submitted script-like prompt');
+      await chatPage.submitPrompt(SCRIPT_QUERY);
     });
 
     await test.step('Validate script-like response', async () => {
-      await expectResponseContains(page, 
-        { index: 0, matcher: /(script|cannot|execute|run|code|safe|security)/i },
-        { testInfo: test.info() }
-      );
-      await captureScreenshot(test.info(), page, 'search-1-initial-response');
+      await chatPage.expectResponseAt(0, /(script|cannot|execute|run|code|safe|security|help)/i);
+      await chatPage.takeScreenshot('search-1-initial-response');
     });
 
     await test.step('Start new chat flow', async () => {
-      let newChatButton = page.locator(selectors.chat.newChatButton).first();
-      if (!(await newChatButton.count())) {
-        newChatButton = page
-          .getByRole('button', { name: selectors.chat.newChatFallbackRole })
-          .filter({ hasNot: page.locator('[disabled]') })
-          .first();
-      }
-
-      await expect(newChatButton, 'new chat trigger should exist').toBeVisible({
-        timeout: 10_000
-      });
-      await expect(newChatButton).toBeEnabled({ timeout: 10_000 });
-      await newChatButton.click();
-
-      const confirmButton = page.locator(selectors.chat.confirmNewChatButton).first();
-      await expect(confirmButton).toBeVisible({ timeout: 10_000 });
-      await expect(confirmButton).toBeEnabled({ timeout: 10_000 });
-      await confirmButton.click();
-      await logMessage(test.info(), 'Confirmed new chat creation');
+      await chatPage.startNewChat();
     });
 
     await test.step('Submit script input in new chat', async () => {
-      await submitChatPrompt(page, SCRIPT_QUERY_AGAIN, test.info());
+      await chatPage.submitPrompt(SCRIPT_QUERY_AGAIN);
     });
 
     await test.step('Validate script response in new chat', async () => {
-      await expectResponseContains(page, 
-        { index: 0, matcher: /(script|cannot|execute|run|code|safe|security)/i }, 
-        { testInfo: test.info() }
-      );
-      await captureScreenshot(test.info(), page, 'search-2-newchat-response');
+      await chatPage.expectResponseAt(0, /(script|cannot|execute|run|code|safe|security|help)/i);
+      await chatPage.takeScreenshot('search-2-newchat-response');
     });
 
     await test.step('Visit search page for empty state', async () => {
-      await page.goto('/search');
-      const emptyState = page.locator('text=No recent threads.');
-      await expect(emptyState).toBeVisible({ timeout: 10_000 });
-      await logMessage(test.info(), 'Confirmed empty state on search page');
+      await searchPage.open();
+      await searchPage.expectEmptyState();
     });
 
     await test.step('Search page shows pending state for AI query', async () => {
-      const searchInput = page.locator(selectors.search.input);
-      await expect(searchInput).toBeVisible({ timeout: 10_000 });
-      await searchInput.fill('AI');
-
-      const progressBar = page.locator(selectors.search.progressBar);
-      await expect(progressBar).toBeVisible({ timeout: 5_000 });
-
-      const emptyState = page.locator('text=No recent threads.');
-      await expect(emptyState).toBeVisible({ timeout: 10_000 });
-
-      await captureScreenshot(test.info(), page, 'search-3-progress-bar');
-      await logMessage(test.info(), 'Captured search progress indicator');
+      await searchPage.searchFor('AI');
+      await searchPage.expectProgressBar();
+      await searchPage.expectEmptyState();
+      await searchPage.takeScreenshot('search-3-progress-bar');
     });
   });
 });

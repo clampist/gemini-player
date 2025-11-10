@@ -6,7 +6,16 @@
     "test": "playwright test",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
-    "test:report": "playwright show-report"
+    "test:report": "playwright show-report",
+    "test:smoke": "playwright test smoke.spec.ts",
+    "lint": "eslint \"tests/**/*.{ts,tsx}\" \"playwright.config.ts\"",
+    "type-check": "tsc --noEmit",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -19,6 +28,8 @@
     "@typescript-eslint/parser": "^8.46.3",
     "dotenv": "^17.2.3",
     "eslint": "^9.39.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
